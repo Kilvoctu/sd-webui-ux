@@ -24,10 +24,6 @@
                         <div class="mask-icon icon-extras"></div>
                         <span>Extras</span>
                     </button>
-                    <button title="Train" tabItemId="#split-app, #train_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_train')" class="xtabs-tab">
-                        <div class="mask-icon icon-train"></div>
-                        <span>Train</span>
-                    </button>
                     <button title="Deforum" id="deforum_nav" tabItemId="#split-app, #deforum_tabitem" tabGroup="main_group" data-click="#tabs" onclick="mainTabs(this, '#tab_deforum_interface')" class="xtabs-tab hidden">
                         <div class="mask-icon icon-deforum"></div>
                         <span>Deforum</span>
@@ -111,31 +107,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="train_tabitem_parent">
-                                <div id="train_tabitem" class="xtabs-item  no-padding">
-                                    <div id="splitt" direction="horizontal" gutterSize="8" class="split">
-                                        <div title="Train params" id="tsp-c1" data-minSize="0" data-initSize="50" id="iwswt" class="split-container params">
-                                            <div id="template-train-params" class="template"></div>
-                                        </div>
-                                        <div title="Train results" id="tsp-c2" data-minSize="0" data-initSize="50" id="iclywt" class="split-container">
-                                            <div id="template-train-results" class="template"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="deforum_tabitem_parent">
-                                <div id="deforum_tabitem" class="xtabs-item  no-padding">
-                                    <div id="split-deforum" direction="horizontal" gutterSize="8" class="split">
-                                        <div title="Deforum params" id="def-c1" data-minSize="0" data-initSize="50" class="split-container params">
-                                            <div id="template-deforum-params" class="template"></div>
-                                        </div>
-                                        <div title="Deforum results" id="def-c2" data-minSize="0" data-initSize="50" class="split-container">
-                                            <div id="template-deforum-results" class="template"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div id="iibrowser_tabitem_parent">
                                 <div title=" " id="iibrowser_tabitem" class="xtabs-item no-padding">
                                     <div show-button="#iibrowser_nav" data-parent-selector="gradio-app" data-selector="#tab_infinite-image-browsing > div" class="portal"></div>                                                   

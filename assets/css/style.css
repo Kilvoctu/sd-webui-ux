@@ -2004,6 +2004,7 @@ button:hover svg {
 
 .ae-button .portal button {
     background-color: transparent !important;
+    height: 100%;
 }
 
 .center {

@@ -5,3 +5,4 @@ node_modules
 temp
 **/thumbnails/
 user
+themes/*.txt
