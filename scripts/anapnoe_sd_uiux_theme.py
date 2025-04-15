@@ -123,12 +123,12 @@ def on_ui_tabs():
 
         def save_theme(vars_text, css_text, filename):
             style_data = ":root{" + vars_text + "}" + css_text
-            with open(os.path.join(themes_folder, f"{filename}.css"), 'w', encoding="utf-8") as file:
+            with open(os.path.join(themes_folder, f"{filename}.txt"), 'w', encoding="utf-8") as file:
                 file.write(vars_text)
             with open(webui_style_path, 'w', encoding="utf-8") as file:
                 file.write(style_data)
             themes_dropdown.choices = get_files(themes_folder, [".css", ".txt"])
-            return gr.update(choices=themes_dropdown.choices, value=f"{filename}.css")
+            return gr.update(choices=themes_dropdown.choices, value=f"{filename}.txt")
 
         def open_theme(filename):
             with open(os.path.join(themes_folder, filename), 'r') as file:
