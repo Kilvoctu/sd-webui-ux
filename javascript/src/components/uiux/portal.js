@@ -88,7 +88,15 @@ export async function appendPortalContent(parentElem, contentDiv, count = 0, ind
             }
         }
 
-        parentElem.append(targetElem);
+        let elementToMove = targetElem;
+        if (targetElem.tagName === 'TEXTAREA') {
+            const wrapper = targetElem.closest('.gradio-textbox');
+            if (wrapper) {
+                elementToMove = wrapper;
+            }
+        }
+
+        parentElem.append(elementToMove);
         isInit ? total++ : 0;
         console.log("register | Ref", index, parentSelector, selector);
 

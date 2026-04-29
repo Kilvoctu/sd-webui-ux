@@ -108,6 +108,7 @@ class DatabaseManager:
     def _generate_import_process(self, pages: dict, refresh: bool, pbar: tqdm):
         total_items = 0
         for page in pages.values():
+            page.refresh()
             items = list(page.list_items()) or []
             total_items += len(items)
         
@@ -144,8 +145,6 @@ class DatabaseManager:
                     logger.error(f"Error creating table {table_name}: {e}")
                     continue
             
-            page.refresh()
-
             for item in items:
                 try:
                     processed += 1
@@ -730,6 +729,10 @@ class DatabaseManager:
 
     def delete_invalid_items(self, table_name):
         validate_name(table_name, "table")  # Validate table
+        if not self.table_exists(table_name):
+            logger.info(f"Table {table_name} does not exist. Skipping invalid item deletion.")
+            return {"message": f"Table {table_name} does not exist, skipping.", "deleted_count": 0}
+
         conn = None
         try:
             conn = self.connect()
@@ -775,7 +778,13 @@ class DatabaseManager:
             sd_version: str = "") -> dict:
         
         validate_name(table_name, "table")  # Validate table
-
+        
+        if not self.table_exists(table_name):
+            return {
+                "items": [],
+                "nextCursor": None,
+                "total": 0
+            }
         
         valid_sort_columns = ["id", "name", "filename", "date_created", "date_modified"]  # whitelist
         if sort_by not in valid_sort_columns:

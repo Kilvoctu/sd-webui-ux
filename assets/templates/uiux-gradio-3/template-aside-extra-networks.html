@@ -53,10 +53,6 @@
                 <div class="mask-icon icon-lora"></div>
                 <span>LORA</span>
             </button>
-            <button title="Hypernetworks" id="hypernetwork_nav" tabItemId="#layout_db_hypernetworks" tabGroup="extra_networks" class="xtabs-tab">
-                <div class="mask-icon icon-hypernetworks"></div>
-                <span>Hypernetworks</span>
-            </button>
             <button title="Styles" tabItemId="#layout_db_styles" tabGroup="extra_networks" id="sd_styles_nav" class="xtabs-tab hidden">
                 <div class="mask-icon icon-stylez"></div>
                 <span>Styles</span>
@@ -90,13 +86,12 @@
         <div id="template-civitai-explorer" class="template"></div>
         <div template="template-extra-networks-db" key="checkpoints" id="exn_checkpoints" class="template"></div>
         <div template="template-extra-networks-db" key="textual_inversion" id="exn_textual_inversion" class="template"></div>
-        <div template="template-extra-networks-db" key="hypernetworks" id="exn_hypernetworks" class="template"></div>
         <div template="template-extra-networks-db" key="lora" id="exn_lora" class="template"></div>
         <div id="layout-theme" class="flexbox col padding">
             <div show-button="#btn_theme_editor" data-selector="[id^='tab_ui_theme'] > div" data-parent-selector="gradio-app" class="portal no-bg"></div>
         </div>
 
-        <div id="template-styles-db" key="styles" id="sd_styles" class="template"></div>
-        <div id="template-styles-db" key="output_images" id="sd_output_images" class="template"></div>
+        <div template="template-styles-db" key="styles" id="sd_styles" class="template"></div>
+        <div template="template-styles-db" key="output_images" id="sd_output_images" class="template"></div>
     </div>
 </div>

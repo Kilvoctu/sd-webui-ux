@@ -81,10 +81,6 @@
                 <div class="mask-icon icon-lora"></div>
                 <span>LORA</span>
             </button>
-            <button title="Hypernetworks" id="hypernetwork_nav" tabItemId="#layout_db_hypernetworks" tabGroup="extra_networks" class="xtabs-tab">
-                <div class="mask-icon icon-hypernetworks"></div>
-                <span>Hypernetworks</span>
-            </button>
             <button title="Styles" tabItemId="#layout_db_styles" tabGroup="extra_networks" id="sd_styles_nav" class="xtabs-tab hidden">
                 <div class="mask-icon icon-stylez"></div>
                 <span>Styles</span>
@@ -131,7 +127,7 @@
 			<div data-selector="#tab_space > div" data-parent-selector="gradio-app" class="portal no-bg">
 			</div>
         </div>
-        <div id="template-styles-db" key="styles" id="sd_styles" class="template"></div>
-        <div id="template-styles-db" key="output_images" id="sd_output_images" class="template"></div>
+        <div template="template-styles-db" key="styles" id="sd_styles" class="template"></div>
+        <div template="template-styles-db" key="output_images" id="sd_output_images" class="template"></div>
     </div>
 </div>
