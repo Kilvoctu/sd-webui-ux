@@ -10,34 +10,34 @@ export async function resyncTableData(apiParams, vScroll) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({table_name: apiParams.table_name})
         });
-        
+
         if (!deleteResponse.ok) {
             throw new Error(`DELETE failed! Status: ${deleteResponse.status}`);
         }
-        
+
         // Step 2: Import/update table and process stream
         const importResponse = await fetch('/sd_webui_ux/import_update_table', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({table_name: apiParams.table_name})
         });
-        
+
         if (!importResponse.ok) {
             throw new Error(`IMPORT failed! Status: ${importResponse.status}`);
         }
-        
+
         vScroll.showLoadingIndicator();
         const reader = importResponse.body.getReader();
         const decoder = new TextDecoder();
-        
+
         // Process stream chunks
         while (true) {
             const {done, value} = await reader.read();
             if (done) break;
-            
+
             const chunk = decoder.decode(value, {stream: true});
             const lines = chunk.split('\n').filter(line => line.trim());
-            
+
             for (const line of lines) {
                 try {
                     const data = JSON.parse(line);
@@ -48,9 +48,9 @@ export async function resyncTableData(apiParams, vScroll) {
                 }
             }
         }
-        
+
         vScroll.hideLoadingIndicator();
-        
+
         // Step 3: Final UI updates
         apiParams.skip = 0;
         await vScroll.updateParamsAndFetch(apiParams, 0);

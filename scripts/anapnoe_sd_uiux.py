@@ -133,7 +133,7 @@ shared.options_templates.update(
 )
 
 rel_basedir = os.path.relpath(basedir, os.getcwd()).replace("\\", "/")
-dev = "src" if shared.opts.uiux_enable_dev_mode else "dist"
+dev = "src" if shared.opts.uiux_enable_dev_mode else "dist" if shared.opts.uiux_enable_dev_mode else "dist"
 js_code = f"""document.addEventListener('DOMContentLoaded', async() => {{
     const scriptExists = async(path) => {{
         try {{
@@ -184,18 +184,6 @@ def test_function():
     print("-----------------------------------------------------")
     return ""
 
-def check_and_create_dev():
-    dev_mode_file = os.path.join(basedir, "dev.txt")
-    if shared.opts.uiux_enable_dev_mode:
-        if not os.path.exists(dev_mode_file):
-            with open(dev_mode_file, 'w') as f:
-                pass 
-    else:
-        if os.path.exists(dev_mode_file):
-            os.remove(dev_mode_file)
-
-
-
 def run_vite_build():
     try:
         # Call 'npm run build' 
@@ -205,6 +193,7 @@ def run_vite_build():
     except subprocess.CalledProcessError as e:
         print("Error during Vite build:")
         print(e.stderr)
+
 
 
 def on_ui_tabs():
@@ -228,7 +217,7 @@ def on_ui_tabs():
         def run_vite_build_callback():
             run_vite_build()
             return "\n".join(log_messages)
-
+        
         run_button.click(capture_logs, inputs=None, outputs=textbox)
         vite_build.click(run_vite_build_callback, inputs=None, outputs=textbox)
 

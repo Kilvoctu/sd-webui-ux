@@ -131,7 +131,9 @@ export async function setupSdStyle(netkey, table, base_path) {
 
 
     function createTreeView() {
-        if (treeView){return;}
+        if (treeView) {
+            return;
+        }
         treeView = new TreeView(`#${netkey}_tree_view`, '/sd_webui_ux/get_items_by_path', table, base_path);
         treeView.initialize();
 
@@ -183,7 +185,7 @@ export async function setupSdStyle(netkey, table, base_path) {
         }
     }
 
-    refresh.addEventListener('click', async () => {
+    refresh.addEventListener('click', async() => {
         const result = await resyncTableData(apiParams, vScroll);
         if (treeView) {
             await treeView.initialize();
@@ -275,7 +277,7 @@ export async function setupSdStyle(netkey, table, base_path) {
             updateTreeViewSelectedItems();
         }
 
-        vScroll.forceRenderItems()
+        vScroll.forceRenderItems();
         updateTreeViewSelectedItems();
     }
 
@@ -345,9 +347,9 @@ export async function setupSdStyle(netkey, table, base_path) {
     // User Metadata Form
     function createUserMetaForm(itemData, item_id) {
         createTreeView();
-        if (!treeView.subpaths){
+        if (!treeView.subpaths) {
             setTimeout(() => {
-                createUserMetaForm(itemData, item_id)
+                createUserMetaForm(itemData, item_id);
             }, 1000);
             return;
         }

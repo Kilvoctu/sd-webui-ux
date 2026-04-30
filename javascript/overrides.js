@@ -98,21 +98,21 @@ window.onAfterUiUpdate(() => {
         const root_dock = document.querySelector(`#root-dock-components`);
         const tab_active = document.querySelector(`#main-nav .active`);
         const wtb = document.querySelector(`#workspaces_tabitem`);
-        if(root_dock && tab != "#tab_anapnoe_dock"){
+        if (root_dock && tab != "#tab_anapnoe_dock") {
             wtb.classList.add("no-redraw");
         }
 
         if (active_main_tab) {
             active_main_tab.click();
         }
-        
+
         const ntab = document.querySelector(tab);
         if (ntab) {
             ntab.style.display = 'block';
             active_main_tab = ntab;
         }
 
-        if(root_dock && tab != "#tab_anapnoe_dock"){
+        if (root_dock && tab != "#tab_anapnoe_dock") {
             setTimeout(() => {
                 tab_active?.click();
                 wtb.classList.remove("no-redraw");
@@ -136,7 +136,7 @@ window.onAfterUiUpdate(() => {
         `;
         document.body.innerHTML = '';
         document.body.appendChild(messageElement);
-        
+
         const animationFrames = [
             "   ",
             ".  ",
@@ -165,6 +165,6 @@ window.onAfterUiUpdate(() => {
 
         return [];
     };
-    
+
 
 });

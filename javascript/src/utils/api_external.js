@@ -114,7 +114,7 @@ function processMemberships(membershipData) {
     const pastMembers = [];
 
     console.warn(currentDate);
-    
+
     membershipData.forEach(member => {
         const created = new Date(member.support_created_on);
         const updated = new Date(member.support_updated_on);
@@ -125,7 +125,7 @@ function processMemberships(membershipData) {
             pastMembers.push({...member, duration});
         }
     });
-    
+
     currentMembers.sort((a, b) => b.duration - a.duration);
     pastMembers.sort((a, b) => b.duration - a.duration);
 
@@ -133,7 +133,7 @@ function processMemberships(membershipData) {
         const {duration, ...clean} = member;
         return clean;
     };
-    
+
     return {
         currentMembers: currentMembers.map(cleanResult),
         pastMembers: pastMembers.map(cleanResult)
@@ -161,7 +161,7 @@ function processMemberships(membershipData) {
         const userId = record.fk_user_id;
         const startDate = new Date(record.support_created_on);
         const endDate = new Date(record.support_updated_on);
-        
+
         if (!userMap.has(userId)) {
             userMap.set(userId, {
                 ...record,
@@ -181,7 +181,7 @@ function processMemberships(membershipData) {
         userData.periods.sort((a, b) => a.startDate - b.startDate);
         const mergedPeriods = [userData.periods[0]];
         for (let i = 1; i < userData.periods.length; i++) {
-            const last = mergedPeriods[mergedPeriods.length-1];
+            const last = mergedPeriods[mergedPeriods.length - 1];
             const current = userData.periods[i];
             if (current.startDate <= last.endDate) {
                 last.endDate = current.endDate > last.endDate ? current.endDate : last.endDate;
@@ -189,11 +189,11 @@ function processMemberships(membershipData) {
                 mergedPeriods.push(current);
             }
         }
-        
+
         userData.num_months_support = mergedPeriods.reduce((total, period) => {
             return total + fullMonthsBetween(period.startDate, period.endDate);
         }, 0);
-        
+
         userData.support_created_on = userData.firstCreated;
         userData.support_updated_on = userData.lastUpdated;
     }
@@ -208,7 +208,7 @@ function processMemberships(membershipData) {
             support_updated_on: userData.support_updated_on.toISOString(),
             num_months_support: userData.num_months_support
         };
-        
+
         if (userData.lastUpdated.getTime() >= currentThreshold) {
             currentMembers.push(record);
         } else {
@@ -219,21 +219,23 @@ function processMemberships(membershipData) {
     currentMembers.sort((a, b) => b.num_months_support - a.num_months_support);
     pastMembers.sort((a, b) => b.num_months_support - a.num_months_support);
 
-    const cleanResult = ({ periods, firstCreated, lastUpdated, ...clean }) => clean;
-    
+    const cleanResult = ({periods, firstCreated, lastUpdated, ...clean}) => clean;
+
     return {
         currentMembers: currentMembers.map(cleanResult),
         pastMembers: pastMembers.map(cleanResult)
     };
 }
 
-function createMemberItem(currentMember){
+function createMemberItem(currentMember) {
     let profile_name = currentMember.supporter_name;
     const avatar_url = currentMember.profile_picture_url;
-    const avatar_img = avatar_url.includes("/default") ?  `https://robohash.org/${currentMember.fk_user_id}` : avatar_url;
+    const avatar_img = avatar_url.includes("/default") ? `https://robohash.org/${currentMember.fk_user_id}` : avatar_url;
     //const avatar_img = avatar_url.includes("/default") ?  `https://api.dicebear.com/9.x/pixel-art/svg?seed=${currentMember.fk_user_id}` : avatar_url;
-    
-    if(currentMember.fk_user_id == "7367914"){profile_name = "Bruce";}
+
+    if (currentMember.fk_user_id == "7367914") {
+        profile_name = "Bruce";
+    }
 
     return `
         <a href="#" target="_blank" rel="noopener noreferrer nofollow" class="sponsors-button flexbox col">

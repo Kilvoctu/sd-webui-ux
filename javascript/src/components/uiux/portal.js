@@ -113,7 +113,7 @@ export async function appendPortalContent(parentElem, contentDiv, count = 0, ind
     } else if (count < 2) {
         // Retry logic with delay
         const timeout = parentElem.getAttribute("data-timeout");
-        const delay = timeout ? parseInt(timeout) : 500;
+        const delay = timeout ? parseInt(timeout) : 50;
         await new Promise(resolve => setTimeout(resolve, delay));
         console.log(count + 1, "retry | ", delay, " | Ref", index, parentSelector, selector);
         await appendPortalContent(parentElem, contentDiv, count + 1, index, length, isInit);

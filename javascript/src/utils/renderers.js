@@ -297,7 +297,7 @@ export function createVirtualItemCivitImages(item, imgRes) {
                 const resourceName = resource.name ? resource.name : '';
                 const modelVersionId = resource.modelVersionId ? resource.modelVersionId : null;
                 const modelVersionName = resource.modelVersionName;
-                
+
                 if (modelVersionId) {
 
                     const resourcesDescription = document.createElement('p');
@@ -350,10 +350,10 @@ export function createVirtualItemCivitImages(item, imgRes) {
 
     let imageUrl = item.url;
     if (imageUrl) {
-        if(imgRes == 'thumbnail'){
+        if (imgRes == 'thumbnail') {
             const img_parts = imageUrl.split('width=');
             const img_file = img_parts[1].split('/')[1];
-            imageUrl = img_parts[0]+'width=320/'+img_file;
+            imageUrl = img_parts[0] + 'width=320/' + img_file;
         }
         const imgDiv = document.createElement('div');
         imgDiv.style.backgroundImage = `url('${imageUrl}')`;
@@ -435,10 +435,10 @@ export function createVirtualItemCivitModels(item, imgRes) {
 
     let imageUrl = item.modelVersions[0]?.images[0]?.url;
     if (imageUrl) {
-        if(imgRes == 'thumbnail'){
+        if (imgRes == 'thumbnail') {
             const img_parts = imageUrl.split('width=');
             const img_file = img_parts[1].split('/')[1];
-            imageUrl = img_parts[0]+'width=320/'+img_file;
+            imageUrl = img_parts[0] + 'width=320/' + img_file;
         }
         const imgDiv = document.createElement('div');
         //imgDiv.style.backgroundImage = `url('${imageUrl}')`;

@@ -85,7 +85,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
     //const treeViewContainer = document.querySelector(`#${netkey}_tree_view`);
     const treeViewButton = document.querySelector(`#${netkey}_show-dirs`);
     const search_row = document.querySelector(`#${netkey}_search_row`);
-    
+
     const search_area = document.querySelector(`#layout_db_${netkey} > div`);
     const observer = new ResizeObserver(() => {
         if (!search_area || !treeViewButton) return;
@@ -99,7 +99,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
     });
     observer.observe(search_area);
 
-    
+
 
     selected_networks[`txt2img_${table}`] = [];
     selected_networks[`img2img_${table}`] = [];
@@ -112,7 +112,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
         table_name: table,
         skip: 0,
         limit: limit,
-        sort_by: "name",
+        sort_by: "filename",
         order: "asc",
         search_term: "",
     };
@@ -251,7 +251,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
     } else {
         checkpointObserver = setupCheckpointChangeObserver(vScroll);
     }
-    
+
     let treeView;
     function createTreeView() {
         treeView = new TreeView(`#${netkey}_tree_view`, '/sd_webui_ux/get_items_by_path', table, base_path);
@@ -261,7 +261,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
             treeView.selected = selectedSet;
             treeView.updateSelectedItems();
         });
-        
+
 
         treeView.createFileItem = function(tree, key) {
             const li = document.createElement('li');
@@ -311,7 +311,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
         createTreeView();
     }, {once: true});
 
-    refresh.addEventListener('click', async () => {
+    refresh.addEventListener('click', async() => {
         const result = await resyncTableData(apiParams, vScroll);
         if (treeView) {
             await treeView.initialize();
@@ -327,7 +327,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
             treeView.updateSelectedItems();
         }
     }
-    
+
 
     // Highlight Selected Items
     function selectItems(e) {
@@ -349,7 +349,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
             vScroll.selected = selectedNames;
             vScroll.forceRenderItems();
             updateTreeViewSelectedItems();
-           
+
 
         }, 100);
     }
@@ -424,7 +424,7 @@ export async function setupExtraNetwork(netkey, table, base_path) {
             vScroll.selected = new Set();
             vScroll.forceRenderItems();
             updateTreeViewSelectedItems();
-     
+
         }
     }
 

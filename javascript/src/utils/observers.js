@@ -17,7 +17,7 @@ export function setupGenerateObservers() {
             tib.addEventListener('click', () => {
                 loop?.classList.add('stop');
             });
- 
+
             const gen_observer = new MutationObserver((mutations) => {
                 mutations.forEach((m) => {
                     const isNotGenerating = tib.style.display === 'none';
@@ -29,7 +29,7 @@ export function setupGenerateObservers() {
                                 setTimeout(() => {
                                     tib.click(); //interrupt
                                     check();
-                                }, 500); 
+                                }, 500);
                                 return;
                             }
 
@@ -41,7 +41,7 @@ export function setupGenerateObservers() {
                                     ti.classList.add('disable');
                                     ts?.classList.add('disable');
                                     tg.classList.remove('active');
-                                    tgb.classList.remove('disable')
+                                    tgb.classList.remove('disable');
                                 } else if (isLoopActive) {
                                     tgb.click();
                                     tgb.classList.add('disable');
@@ -49,9 +49,9 @@ export function setupGenerateObservers() {
                             } else {
                                 ti.classList.add('disable');
                                 tg.classList.remove('active');
-                                tgb.classList.remove('disable')
+                                tgb.classList.remove('disable');
                             }
-                            
+
                         } else {
                             ti.classList.remove('disable');
                             ts?.classList.remove('disable');
@@ -64,7 +64,7 @@ export function setupGenerateObservers() {
 
                 });
             });
-            
+
 
             gen_observer.observe(tib, {attributes: true, attributeFilter: ['style']});
         }
@@ -73,9 +73,9 @@ export function setupGenerateObservers() {
 
 
 export function setupCheckpointChangeObserver(vScroll) {
-    const ch_input = document.querySelector("#setting_sd_model_checkpoint .wrap .secondary-wrap input") || 
+    const ch_input = document.querySelector("#setting_sd_model_checkpoint .wrap .secondary-wrap input") ||
                      document.querySelector(".gradio-dropdown.model_selection .wrap .secondary-wrap input");
-    const ch_preload = document.querySelector("#setting_sd_model_checkpoint .wrap") || 
+    const ch_preload = document.querySelector("#setting_sd_model_checkpoint .wrap") ||
                        document.querySelector(".gradio-dropdown.model_selection .wrap");
 
     const ch_footer_selected = document.querySelector("#checkpoints_main_footer_db .model-selected");
@@ -109,9 +109,9 @@ export function setupCheckpointChangeObserver(vScroll) {
         observer = new MutationObserver(() => {
             setTimeout(() => selectCard(ch_input.value), 1000);
         });
-        
-        observer.observe(ch_input, { attributes: true });
-        observer.observe(ch_preload, { childList: true, subtree: true });
+
+        observer.observe(ch_input, {attributes: true});
+        observer.observe(ch_preload, {childList: true, subtree: true});
     };
 
     setupObserver();

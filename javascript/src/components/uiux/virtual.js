@@ -2,7 +2,7 @@
 export function VirtualScroll(container,
     data,
     itemsPerPage = 10,
-    keys = { title: 'username', url: 'url' },
+    keys = {title: 'username', url: 'url'},
     apiUrl = '',
     params = {},
     method = "POST") {
@@ -34,7 +34,7 @@ export function VirtualScroll(container,
     this.scrollDelta = 0;
     this.x = this.y = 0;
 
-    this.renderedRange = { start: -1, end: -1 };
+    this.renderedRange = {start: -1, end: -1};
     this.pendingRender = null;
     this.scrollEndTimer = null;
     this.lastScrollEventTime = 0;
@@ -188,7 +188,7 @@ Object.assign(VirtualScroll.prototype, {
         const end = Math.min(this.data.length, this.startIndex + this.itemsPerPage);
         return this.data.slice(start, end);
     },
-  
+
     renderItems() {
         this.forceRenderItems();
     },
@@ -201,16 +201,16 @@ Object.assign(VirtualScroll.prototype, {
         itemsToRender.forEach((item, index) => {
             const idx = this.startIndex + index;
             currentRange.add(idx);
-            
+
             if (!this.renderedItems[idx]) {
                 const node = this.createItemElement(item, idx);
                 node.dataset.index = idx;
                 node.dataset.id = item.id;
                 fragment.appendChild(node);
                 this.renderedItems[idx] = node;
-            } 
+            }
         });
-        
+
         // Cleanup outside of rendering loop
         this.cleanupRenderedItems(currentRange);
         return fragment;
@@ -228,7 +228,7 @@ Object.assign(VirtualScroll.prototype, {
         scrollDirection === 'increase'
             ? this.itemsWrapper.appendChild(fragment)
             : this.itemsWrapper.insertBefore(fragment, this.itemsWrapper.firstChild);
-        
+
         this.updateSentinels();
     },
 
@@ -246,7 +246,7 @@ Object.assign(VirtualScroll.prototype, {
     getItemsToRender() {
         const start = Math.max(0, this.startIndex);
         const end = Math.min(this.data.length, start + this.itemsPerPage);
-        return { start, end };
+        return {start, end};
     },
 
     renderItems(scrollDirection = 'increase') {
@@ -254,38 +254,38 @@ Object.assign(VirtualScroll.prototype, {
             cancelAnimationFrame(this.pendingRender);
             this.pendingRender = null;
         }
-    
-        const { start, end } = this.getItemsToRender();
+
+        const {start, end} = this.getItemsToRender();
 
         if (this.renderedRange.start === start && this.renderedRange.end === end) {
             return;
         }
-    
+
         this.pendingRender = requestAnimationFrame(() => {
             const startTime = performance.now();
             this._executeRender(start, end, scrollDirection);
             const duration = performance.now() - startTime;
-            
+
             if (duration > 2) {
                 console.warn(`Render time: ${duration.toFixed(2)}ms`);
             }
-            
-            this.renderedRange = { start, end };
+
+            this.renderedRange = {start, end};
             this.pendingRender = null;
         });
     },
-    
+
     _executeRender(start, end, scrollDirection) {
         const currentRange = new Set();
         const fragment = document.createDocumentFragment();
-        
+
         for (let idx = start; idx < end; idx++) {
             currentRange.add(idx);
-            
+
             if (!this.renderedItems[idx]) {
                 const item = this.data[idx];
                 if (!item) continue;
-                
+
                 const node = this.createItemElement(item, idx);
                 node.dataset.index = idx;
                 node.dataset.id = item.id;
@@ -293,7 +293,7 @@ Object.assign(VirtualScroll.prototype, {
                 this.renderedItems[idx] = node;
             }
         }
-        
+
         if (fragment.childElementCount > 0) {
             if (scrollDirection === 'increase') {
                 this.itemsWrapper.appendChild(fragment);
@@ -301,7 +301,7 @@ Object.assign(VirtualScroll.prototype, {
                 this.itemsWrapper.insertBefore(fragment, this.itemsWrapper.firstChild);
             }
         }
-        
+
         for (const idx in this.renderedItems) {
             if (!currentRange.has(Number(idx))) {
                 this.renderedItems[idx].remove();
@@ -309,16 +309,16 @@ Object.assign(VirtualScroll.prototype, {
             }
         }
 
-        this.renderedRange = { start, end };
+        this.renderedRange = {start, end};
         this.updateSentinels();
-        
+
     },
 
     forceRenderItems() {
         try {
             this.itemsWrapper.innerHTML = '';
             this.renderedItems = {};
-            this.renderedRange = { start: -1, end: -1 };
+            this.renderedRange = {start: -1, end: -1};
             this.renderItems();
         } catch (e) {
             console.error("Force render error:", e);
@@ -397,7 +397,7 @@ Object.assign(VirtualScroll.prototype, {
             this.container[this.scrollProp] = this.invalidateScrollIndex * this.itemSize;
             this.startIndex = Math.floor(this.container[this.scrollProp] / this.itemSize) * this.itemsPerRow;
             this.invalidateScrollIndex = 0;
-            this.updateDimensions(true); //recalculate important           
+            this.updateDimensions(true); //recalculate important
 
         } else {
 
@@ -421,31 +421,31 @@ Object.assign(VirtualScroll.prototype, {
             this.updateScroll();
         }, 100);
     },
-    
+
     //handleScrollEnd() {
-        //const timeSinceLastScroll = performance.now() - this.lastScrollEventTime;
-        //if (timeSinceLastScroll < 100) return;
-        //this.validateAndFixRender();
+    //const timeSinceLastScroll = performance.now() - this.lastScrollEventTime;
+    //if (timeSinceLastScroll < 100) return;
+    //this.validateAndFixRender();
     //},
-    
+
     updateScroll() {
         const scrollPos = this.container[this.scrollProp];
         const scrollDirection = scrollPos > this.lastScrollPos ? 'increase' : 'decrease';
         this.lastScrollPos = scrollPos;
-    
+
         const sindex = Math.floor(scrollPos / this.itemSize) * this.itemsPerRow;
-        
-        if (scrollDirection === 'increase' && 
-            this.useDataFetching && 
-            !this.isFetching && 
-            this.params.cursor && 
+
+        if (scrollDirection === 'increase' &&
+            this.useDataFetching &&
+            !this.isFetching &&
+            this.params.cursor &&
             sindex >= this.maxStartIndex
         ) {
             this.isFetching = true;
             this.fetchUpdateData();
             return;
         }
-    
+
         if (this.startIndex !== sindex) {
             this.startIndex = sindex;
             this.renderItems(scrollDirection);
@@ -454,7 +454,7 @@ Object.assign(VirtualScroll.prototype, {
 
     clickHandler(e) {
         //if (this.isFullSize) return;
-        const { target: target, currentTarget: ctarget } = e;
+        const {target: target, currentTarget: ctarget} = e;
         const index = target.closest('.item.card').dataset.index;
         const itemData = this.data[index];
         console.log(itemData);
@@ -485,27 +485,27 @@ Object.assign(VirtualScroll.prototype, {
     /* Setup Event Listeners */
     setupEventListeners() {
 
-        this.container.addEventListener('scroll', this.throttle(this.scrollHandler.bind(this), 100), { passive: true });
+        this.container.addEventListener('scroll', this.throttle(this.scrollHandler.bind(this), 100), {passive: true});
         this.container.addEventListener('click', this.clickHandler.bind(this));
         this.container.addEventListener('change', this.changeHandler.bind(this));
-        this.container.addEventListener("wheel", this.wheelHandler.bind(this), { passive: false });
+        this.container.addEventListener("wheel", this.wheelHandler.bind(this), {passive: false});
 
-        this.container.tabIndex = -1; 
+        this.container.tabIndex = -1;
         this.container.addEventListener('keydown', this.keyPressHandler.bind(this));
         this.container.addEventListener('click', () => this.container.focus());
 
         this.panel = this.itemsWrapper;
 
-        this.panel.addEventListener('pointerdown', this.pointerDown.bind(this), { passive: false });
-        this.panel.addEventListener('pointermove', this.throttle(this.pointerMove.bind(this), 16), { passive: false });
-        this.panel.addEventListener('pointerup', this.pointerUp.bind(this), { passive: false });
-        this.panel.addEventListener('pointercancel', this.pointerUp.bind(this), { passive: false });
-        this.panel.addEventListener('pointerleave', this.pointerUp.bind(this), { passive: false });
+        this.panel.addEventListener('pointerdown', this.pointerDown.bind(this), {passive: false});
+        this.panel.addEventListener('pointermove', this.throttle(this.pointerMove.bind(this), 16), {passive: false});
+        this.panel.addEventListener('pointerup', this.pointerUp.bind(this), {passive: false});
+        this.panel.addEventListener('pointercancel', this.pointerUp.bind(this), {passive: false});
+        this.panel.addEventListener('pointerleave', this.pointerUp.bind(this), {passive: false});
 
         this.isMouseDevice = false;
         window.addEventListener('mousemove', () => {
             this.isMouseDevice = true;
-        }, { once: true });
+        }, {once: true});
 
         //this.setupDragScrollListener();
     },
@@ -573,18 +573,18 @@ Object.assign(VirtualScroll.prototype, {
     /* Keybord Handlers */
     keyPressHandler(event) {
         switch (event.key) {
-            case 'ArrowDown':
-                this.scrollBy(1);
-                break;
-            case 'ArrowUp':
-                this.scrollBy(-1);
-                break;
-            case 'Home':
-                this.scrollToStart();
-                break;
-            case 'End':
-                this.scrollToEnd();
-                break;
+        case 'ArrowDown':
+            this.scrollBy(1);
+            break;
+        case 'ArrowUp':
+            this.scrollBy(-1);
+            break;
+        case 'Home':
+            this.scrollToStart();
+            break;
+        case 'End':
+            this.scrollToEnd();
+            break;
         }
     },
 
@@ -635,7 +635,7 @@ Object.assign(VirtualScroll.prototype, {
 
     /* Helper Functions*/
     debounce(func, defaultDelay = 1000) {
-        return function (...args) {
+        return function(...args) {
             const context = this;
             const delay = typeof args[args.length - 1] === 'number' ? args.pop() : defaultDelay;
             const later = () => {
@@ -652,7 +652,7 @@ Object.assign(VirtualScroll.prototype, {
         let lastRan;
         let lastCallArgs;
 
-        return function () {
+        return function() {
             const context = this;
             lastCallArgs = arguments;
             const now = Date.now();
@@ -662,7 +662,7 @@ Object.assign(VirtualScroll.prototype, {
                 lastRan = now;
             } else {
                 clearTimeout(lastFunc);
-                lastFunc = setTimeout(function () {
+                lastFunc = setTimeout(function() {
                     if ((now - lastRan) >= limit) {
                         func.apply(context, lastCallArgs);
                         lastRan = now;
@@ -795,14 +795,14 @@ Object.assign(VirtualScroll.prototype, {
             // Set GET headers
             xhr.setRequestHeader("Accept", "application/json");
 
-            xhr.onprogress = function (event) {
+            xhr.onprogress = function(event) {
                 if (event.lengthComputable) {
                     const percentage = parseInt((event.loaded / event.total) * 100);
                     updateIndicator(percentage);
                 }
             };
 
-            xhr.onload = function () {
+            xhr.onload = function() {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     resolve(response);
@@ -811,7 +811,7 @@ Object.assign(VirtualScroll.prototype, {
                 }
             };
 
-            xhr.onerror = function () {
+            xhr.onerror = function() {
                 reject(xhr.status);
             };
 
@@ -970,7 +970,7 @@ Object.assign(VirtualScroll.prototype, {
     },
 
     getRelativePointers(pointers) {
-        const { boundingClientRect } = this;
+        const {boundingClientRect} = this;
         const [pointer1, pointer2] = pointers;
         return {
             x1: pointer1.x - boundingClientRect.left,
@@ -981,7 +981,7 @@ Object.assign(VirtualScroll.prototype, {
     },
 
     centerOfPointers(pointers) {
-        const { x1, y1, x2, y2 } = this.getRelativePointers(pointers);
+        const {x1, y1, x2, y2} = this.getRelativePointers(pointers);
         const centerX = (x1 + x2) / 2;
         const centerY = (y1 + y2) / 2;
         return [centerX, centerY];
@@ -1007,7 +1007,7 @@ Object.assign(VirtualScroll.prototype, {
     },
 
     centeredZoom(relative, cx, cy) {
-        const { zoom_scale, x, y, half_w, half_h } = this;
+        const {zoom_scale, x, y, half_w, half_h} = this;
         let value = zoom_scale * relative;
         if (value <= 1) {
             this.resetZoom();
@@ -1061,8 +1061,8 @@ Object.assign(VirtualScroll.prototype, {
         this.dragged = false;
         this.startX = e.pageX;
         this.startY = e.pageY;
-        const { isFullSize, isMouseDevice, activePointers } = this;
-        activePointers[e.pointerId] = { x: e.pageX, y: e.pageY };
+        const {isFullSize, isMouseDevice, activePointers} = this;
+        activePointers[e.pointerId] = {x: e.pageX, y: e.pageY};
 
         const pointerCount = Object.keys(activePointers).length;
         //console.log(`Pointer Down: ${e.pointerId}, Count: ${pointerCount}, Active Pointers:`, activePointers);
@@ -1099,9 +1099,9 @@ Object.assign(VirtualScroll.prototype, {
         this.dragged = true;
         //this.scrollDelta = 0;
 
-        const { isZoomMode, isFullSize, isMouseDevice, activePointers, startX, startY, start, scrollProp, scrollStart } = this;
+        const {isZoomMode, isFullSize, isMouseDevice, activePointers, startX, startY, start, scrollProp, scrollStart} = this;
         if (activePointers[e.pointerId]) {
-            activePointers[e.pointerId] = { x: e.pageX, y: e.pageY };
+            activePointers[e.pointerId] = {x: e.pageX, y: e.pageY};
             const pointerCount = Object.keys(activePointers).length;
             if (isZoomMode) {
 
@@ -1143,7 +1143,7 @@ Object.assign(VirtualScroll.prototype, {
         e.preventDefault();
         this.dragged = false;
 
-        const { isZoomMode, isFullSize, isMouseDevice, activePointers } = this;
+        const {isZoomMode, isFullSize, isMouseDevice, activePointers} = this;
         delete activePointers[e.pointerId];
         if (Object.keys(activePointers).length < 2) {
             this.previousDistance = 0;

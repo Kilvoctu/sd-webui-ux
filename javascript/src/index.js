@@ -1,4 +1,4 @@
-import {getGradioApp, getAnapnoeApp, getAnapnoeTabContent, IS_BACKEND_OPTIMIZED, CSS_INCLUDES, DEFAULT_ASSETS_PATH, VERSION_DATA, ANAPNOE_APP_VER,} from './constants.js';
+import {getGradioApp, getAnapnoeApp, getAnapnoeTabContent, IS_BACKEND_OPTIMIZED, CSS_INCLUDES, DEFAULT_ASSETS_PATH, VERSION_DATA, ANAPNOE_APP_VER} from './constants.js';
 import {setupLogger} from './components/logger.js';
 import {loadTemplates} from './components/templates.js';
 import {setupAnimations, detectHoverOnElements} from './utils/helpers.js';
@@ -127,7 +127,7 @@ function onUiUxReady(content_div) {
     detectHoverOnElements(".layout-extra-networks");
 
     if (!IS_BACKEND_OPTIMIZED) {
-        document.querySelector("#github-project-link").href = "https://github.com/anapnoe/sd-webui-ux"
+        document.querySelector("#github-project-link").href = "https://github.com/anapnoe/sd-webui-ux";
     }
 
     setReloadBackgroundColor();

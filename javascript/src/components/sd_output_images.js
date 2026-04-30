@@ -138,7 +138,9 @@ export async function setupSdOutputImage(netkey, table, base_path) {
 
     // TreeView
     function createTreeView() {
-        if (treeView){return;}
+        if (treeView) {
+            return;
+        }
         treeView = new TreeView(`#${netkey}_tree_view`, '/sd_webui_ux/get_items_by_path', table, base_path);
         treeView.initialize();
 
@@ -190,7 +192,7 @@ export async function setupSdOutputImage(netkey, table, base_path) {
         }
     }
 
-    refresh.addEventListener('click', async () => {
+    refresh.addEventListener('click', async() => {
         const result = await resyncTableData(apiParams, vScroll);
         if (treeView) {
             await treeView.initialize();
@@ -284,7 +286,7 @@ export async function setupSdOutputImage(netkey, table, base_path) {
 
         vScroll.forceRenderItems();
         updateTreeViewSelectedItems();
-        
+
     }
 
     document.querySelectorAll('#txt2img_prompt textarea, #img2img_prompt textarea, #txt2img_neg_prompt textarea, #img2img_neg_prompt textarea').forEach(textarea => {
@@ -345,7 +347,7 @@ export async function setupSdOutputImage(netkey, table, base_path) {
             table_name: table,
             item_id: itemId,
         };
-        
+
         requestPostData(url, params, function(result) {
             //console.log(result);
             vScroll.removeDataById(itemId);
@@ -356,9 +358,9 @@ export async function setupSdOutputImage(netkey, table, base_path) {
     // User Metadata Form
     function createUserMetaForm(itemData, item_id) {
         createTreeView();
-        if (!treeView.subpaths){
+        if (!treeView.subpaths) {
             setTimeout(() => {
-                createUserMetaForm(itemData, item_id)
+                createUserMetaForm(itemData, item_id);
             }, 1000);
             return;
         }
